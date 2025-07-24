@@ -52,6 +52,9 @@ public class BenchmarkRunner {
     @CommandLine.Option(names = "-advanced", defaultValue = "null")
     private String advanced;
 
+    @CommandLine.Option(names = "-test", defaultValue = "false")
+    private String test;
+
     @CommandLine.Parameters
     private List<String> benchmarks;
 
@@ -62,7 +65,8 @@ public class BenchmarkRunner {
 
     private void runAll() {
         if (benchmarks == null) {
-            throw new IllegalArgumentException("benchmarks are not given");
+            benchmarkInfos.keySet().forEach(this::run);
+            // throw new IllegalArgumentException("benchmarks are not given");
         }
         benchmarks.forEach(this::run);
     }
@@ -90,9 +94,11 @@ public class BenchmarkRunner {
                 "merge-string-objects", "false",
                 "cs", cs,
                 "advanced", advanced,
+		"test-redundant-ref-op", test,
                 "reflection-inference", "null",
                 "reflection-log", new File(BENCHMARK_HOME, info.reflectionLog()).toString());
         Collections.addAll(args,
+		"--output-dir", "./test-" + test + "-" + cs + "/" + benchmark + "/",
                 "-a", "pta=" + ptaArgs.entrySet()
                         .stream()
                         .map(e -> e.getKey() + ":" + e.getValue())
