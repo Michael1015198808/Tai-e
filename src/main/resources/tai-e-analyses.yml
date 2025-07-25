@@ -32,6 +32,7 @@
     taint-interactive-mode: false # whether enable interactive mode for taint analysis
     plugins: [ ] # | [ pluginClass, ... ]
     time-limit: -1 # set time limit (in seconds) for pointer analysis,
+    test-redundant-ref-op: false # Whether to disable the seemingly redundant addVarPointsTo call during reflection analysis
     # -1 means no time limit
 
 - description: call graph construction
